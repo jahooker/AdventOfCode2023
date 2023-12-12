@@ -50,9 +50,9 @@ def parse(lines):
 def game_is_possible(game: Game, bag: CubeSet) -> bool:
     ''' Could this game occur with the given bag?
     '''
-    return all(    round_['red'  ] <= bag['red'  ] \
-               and round_['green'] <= bag['green'] \
-               and round_['blue' ] <= bag['blue' ] for round_ in game)
+    return all(all(round_[color] <= bag[color]
+                   for color in colors)
+                   for round_ in game)
 
 
 def possible_game_ids(lines):
