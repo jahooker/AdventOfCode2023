@@ -45,14 +45,11 @@ def spans_are_adjacent(this_span, that_span):
 
 def neighbours(this, those):
     this_string, i, (j0, j1) = this
-    outbox = set()
     for that in those:
         that_string, k, (l0, l1) = that
         if spans_are_adjacent((i, (j0, j1)),
-                              (k, (l0, l1))) \
-        and that not in outbox:
+                              (k, (l0, l1))):
             yield that
-            outbox.update(that)
 
 
 def get_part_numbers(engine_schematic):
