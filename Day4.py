@@ -98,14 +98,14 @@ def process_scratchcards(originals: list[Card]):
     processable = {i: 1 for i, m in summary}
     processed   = {i: 0 for i, m in summary}
 
-    while sum(processable.values()) > 0:
+    while any(n != 0 for n in processable.values()):
         i = next(i for i, n in processable.items() if n > 0)
         processed  [i] += (n := processable[i])
         processable[i]  = 0
         for j in range(i + 1, i + scores[i] + 1):
             processable[j] += n
 
-    assert sum(processable.values()) == 0
+    assert all(n == 0 for n in processable.values())
     return processed
 
 
