@@ -26,6 +26,7 @@ def parse_cards(lines: str):
         match = pattern.match(line)
         assert match is not None, line
         card_number, winning_numbers, your_numbers = match.groups()
+        card_number = int(card_number)
         winning_numbers = [int(s) for s in winning_numbers.split(' ') if s]
         your_numbers    = [int(s) for s in your_numbers   .split(' ') if s]
         yield card_number, winning_numbers, your_numbers
@@ -80,9 +81,70 @@ def test1():
     assert sum(points(len(matches)) for matches in matcheses) == 13
 
 
+def summarize(card):
+    i, xs, ys = card
+    m = len([y for y in ys if y in xs])
+    return i, m
+
+
+def process_scratchcards(originals: list):
+    summary = list(map(summarize, originals))
+    # Record card number and score
+    scores = {i: m for i, m in summary}
+    # Record card number and count
+    processable = {i: 1 for i, m in summary}
+    processed   = {i: 0 for i, m in summary}
+    while processable:
+        i, *_ = processable.keys()
+        n = processable[i]
+        processed  [i] += n
+        processable[i] -= n
+        m = scores[i]
+        news = range(i + 1, i + m + 1)
+        for j in news:
+            processable[j] += n
+
+        # Remove entries for cards we do not have
+        keys = list(processable.keys())
+        for i in keys:
+            n = processable[i]
+            if n == 0:
+                del processable[i]
+
+    return processed
+
+
+def test2():
+    originals = list(parse_cards(test_input))
+    processed = process_scratchcards(originals)
+
+    # In the end, we have 30 scratchcards:
+    #  1 instance  of card 1,
+    #  2 instances of card 2, 
+    #  4 instances of card 3, 
+    #  8 instances of card 4, 
+    # 14 instances of card 5, 
+    #  1 instance  of card 6.
+    assert sum(processed.values()) == 30
+    assert processed == {1: 1, 2: 2, 3: 4, 4: 8, 5: 14, 6: 1}
+
+
+def part2():
+    ''' Process the pile of scratchcards.
+        How many scratchcards do you end up with?
+    '''
+    with open('day-4-input.txt') as file:
+        lines = ''.join(line for line in file if line)
+    originals = list(parse_cards(lines))
+    processed = process_scratchcards(originals)
+    return sum(processed.values())
+
+
 if __name__ == '__main__':
     parse_cards(test_input)
     test1()
     print(f'Part 1: {part1()}')
+    test2()
+    print(f'Part 2: {part2()}')
 
 
