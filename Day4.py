@@ -12,6 +12,8 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11\
 '''
 
+Card = tuple[int, list[int], list[int]]
+
 
 def parse_cards(lines: str):
     ''' Each card has two lists of numbers, separated by a vertical bar:
@@ -81,36 +83,29 @@ def test1():
     assert sum(points(len(matches)) for matches in matcheses) == 13
 
 
-def summarize(card):
+def summarize(card: Card) -> tuple[int, int]:
     i, xs, ys = card
     m = len([y for y in ys if y in xs])
     return i, m
 
 
-def process_scratchcards(originals: list):
+def process_scratchcards(originals: list[Card]):
+
     summary = list(map(summarize, originals))
     # Record card number and score
     scores = {i: m for i, m in summary}
     # Record card number and count
     processable = {i: 1 for i, m in summary}
     processed   = {i: 0 for i, m in summary}
-    while processable:
-        i, *_ = processable.keys()
-        n = processable[i]
-        processed  [i] += n
-        processable[i] -= n
-        m = scores[i]
-        news = range(i + 1, i + m + 1)
-        for j in news:
+
+    while sum(processable.values()) > 0:
+        i = next(i for i, n in processable.items() if n > 0)
+        processed  [i] += (n := processable[i])
+        processable[i]  = 0
+        for j in range(i + 1, i + scores[i] + 1):
             processable[j] += n
 
-        # Remove entries for cards we do not have
-        keys = list(processable.keys())
-        for i in keys:
-            n = processable[i]
-            if n == 0:
-                del processable[i]
-
+    assert sum(processable.values()) == 0
     return processed
 
 
@@ -146,5 +141,4 @@ if __name__ == '__main__':
     print(f'Part 1: {part1()}')
     test2()
     print(f'Part 2: {part2()}')
-
 
