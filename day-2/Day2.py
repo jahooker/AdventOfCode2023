@@ -88,7 +88,7 @@ def test1():
 
 
 def part1() -> int:
-    with open('day-2-input.txt') as file:
+    with open('day-2/input.txt') as file:
         which_games = tuple(possible_game_ids(file))
     return sum(which_games)
 
@@ -144,7 +144,7 @@ def test2():
 
 
 def part2() -> int:
-    with open('day-2-input.txt') as file:
+    with open('day-2/input.txt') as file:
         games = tuple(parse(file))
     return sum(power(minimal_cube_set(game)) for game in games)
 

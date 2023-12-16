@@ -31,7 +31,7 @@ def test1():
 
 
 def part1():
-    with open('day-1-input.txt') as file:
+    with open('day-1/input.txt') as file:
         print(sum(calibration_values_part1(file)))
 
 
@@ -71,7 +71,7 @@ def test2():
 
 
 def part2():
-    with open('day-1-input.txt') as file:
+    with open('day-1/input.txt') as file:
         print(sum(calibration_values_part2(file)))
 
 

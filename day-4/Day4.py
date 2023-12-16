@@ -52,7 +52,7 @@ def get_matches(lines: str):
 def part1():
     ''' How many points are the cards worth in total?
     '''
-    with open('day-4-input.txt') as file:
+    with open('day-4/input.txt') as file:
         lines = ''.join(line for line in file if line)
     matcheses = get_matches(lines)
     return sum(points(len(matches)) for matches in matcheses)
@@ -128,7 +128,7 @@ def part2():
     ''' Process the pile of scratchcards.
         How many scratchcards do you end up with?
     '''
-    with open('day-4-input.txt') as file:
+    with open('day-4/input.txt') as file:
         lines = ''.join(line for line in file if line)
     originals = list(parse_cards(lines))
     processed = process_scratchcards(originals)

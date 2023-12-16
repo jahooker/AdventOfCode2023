@@ -81,7 +81,7 @@ def test1():
 
 
 def part1():
-    with open('day-3-input.txt') as file:
+    with open('day-3/input.txt') as file:
         lines = [line.strip() for line in file]
         part_numbers = [*get_part_numbers(lines)]
     return sum(part_numbers)
@@ -112,7 +112,7 @@ def test2():
 
 
 def part2():
-    with open('day-3-input.txt') as file:
+    with open('day-3/input.txt') as file:
         lines = [line.strip() for line in file]
         gear_ratios = [*get_gear_ratios(lines)]
     return sum(gear_ratios)
