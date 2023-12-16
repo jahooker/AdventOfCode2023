@@ -109,10 +109,10 @@ def mapping_from_triples(triples):
 
     def mapping(i: int) -> int:
         for a, b, c in triples:
-            sr = list(range(b, b + c))  # Source      range
-            dr = list(range(a, a + c))  # Destination range
-            if i in sr:
-                return dr[sr.index(i)]
+            # src  = range(b, b + c))
+            # dest = range(a, a + c))
+            if b <= i < b + c:
+                return i + a - b
         return i
 
     return mapping
@@ -177,10 +177,9 @@ def part1():
         almanac = ''.join(file)
     information = parse_almanac(almanac)
     print(information)
-    return
     seed2location = lambda i: make_seed2location(information, i)
     location_numbers = [seed2location(i) for i in information['seeds']]
-    assert min(location_numbers) == 35
+    return min(location_numbers)
 
 
 if __name__ == '__main__':
